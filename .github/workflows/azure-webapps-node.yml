@@ -29,36 +29,42 @@ env:
   RUST_BACKTRACE: 1
   CARGO_TERM_COLOR: always
   APP_ENV: development
-  APP_MONGO_USER: belgin
-  APP_MONGO_PASS: Belgin.hiddensafe@675
-  APP_MONGO_DB: mongonode
 
 permissions:
   contents: read
 
 jobs:
   test:
-    name: Test
     runs-on: ubuntu-latest
-    services:
-      mongo:
-      image: mongo
-    env:
-      MONGO_INITDB_ROOT_USERNAME: ${APP_MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${APP_MONGO_PASS}
-      MONGO_INITDB_DATABASE: ${APP_MONGO_DB}
-          ports:
-            - 27017:27017
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        mongodb-version: ['4.2', '4.4', '5.0', '6.0']
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-          with:
-            profile: minimal
-            toolchain: stable
-            override: true
-        - uses: actions-rs/cargo@v1
-          with:
-            command: test
+    - name: Git checkout
+      uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Start MongoDB
+      uses: supercharge/mongodb-github-action@1.8.0
+      with:
+        mongodb-version: ${{ matrix.mongodb-version }}
+        mongodb-username: test
+        mongodb-password: testingnow
+        mongodb-db: mongonode
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+      env:
+        CI: true
 
   build:
     runs-on: ubuntu-latest
