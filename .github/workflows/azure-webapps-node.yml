@@ -55,7 +55,7 @@ jobs:
       with:
         mongodb-version: ${{ matrix.mongodb-version }}
         mongodb-username: test
-        mongodb-password: testingnow
+        mongodb-password: HGF
         mongodb-db: mongonode
 
     - name: Install dependencies
