@@ -26,11 +26,40 @@ env:
   AZURE_WEBAPP_NAME: Solfi    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '14.x'                # set this to the node version to use
+  RUST_BACKTRACE: 1
+  CARGO_TERM_COLOR: always
+  APP_ENV: development
+  APP_MONGO_USER: belgin
+  APP_MONGO_PASS: Belgin.hiddensafe@675
+  APP_MONGO_DB: mongonode
 
 permissions:
   contents: read
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+      image: mongo
+    env:
+      MONGO_INITDB_ROOT_USERNAME: ${APP_MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${APP_MONGO_PASS}
+      MONGO_INITDB_DATABASE: ${APP_MONGO_DB}
+          ports:
+            - 27017:27017
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+          with:
+            profile: minimal
+            toolchain: stable
+            override: true
+        - uses: actions-rs/cargo@v1
+          with:
+            command: test
+
   build:
     runs-on: ubuntu-latest
     steps:
