@@ -1,11 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const routes = require('./routes/routes');
+const app = express();
 
-mongoose.set('strictQuery', true);
+app.use('/api', routes)
+
+app.use(express.json());
 
 require('dotenv').config();
-
-const app = express();
 
 const mongoString = process.env.DATABASE_URL
 
@@ -19,8 +21,6 @@ database.on('error', (error) => {
 database.once('connected', () => {
     console.log('Database Connected');
 })
-
-app.use(express.json());
 
 app.listen(8080, () => {
     console.log(`Server Started at ${8080}`)
