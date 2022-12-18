@@ -1,21 +1,37 @@
-function getDataByID(err, db, req, res) {
-    if (err) throw err;
-    var dbo = db.db("mongonode");
-    var query = { id: parseInt(req.params.id) };
-    dbo
-      .collection("datas")
-      .find(query)
-      .toArray(function (err, result) {
-      if (err) throw res.send({ message: err });
-        res.send({ api: result });
-      });
-}
+const store = require('./store')
 
 function checkAPIActive(res) {
-    res.send({
-        message: "API is Active"
+  res.send({
+      message: "API is Active"
+  });
+}
+
+function getDataByID(client ,req, res) {
+  var query = { id: parseInt(req.params.id) };
+
+  client
+    .db(store.dbname)
+    .collection(store.dbcollection)
+    .find(query)
+    .toArray((err, result) => {
+        if (err) throw res.send({ api : err });
+        res.send({ api: result });
     });
 }
 
-exports.getDataByID = getDataByID;
+function updateDataByID(client , req, res){
+  const connect = client.db(store.dbname);
+  const collection = connect .collection(store.dbcollection);
+  
+  collection
+    .replaceOne({ id : parseInt(req.params.id) }, req.body)
+    .then((ans) => {
+      res.send({ api: ans });
+    }).then((err) => {
+      console.log(err);
+  })    
+}
+
 exports.checkAPIActive = checkAPIActive;
+exports.getDataByID = getDataByID;
+exports.updateDataByID = updateDataByID;
