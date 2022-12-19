@@ -1,2 +1,3 @@
 # MongoNode
-A SImple API using MongoDB, NodeJS
+
+A Simple API using MongoDB, NodeJS , Azure and Github Action's
