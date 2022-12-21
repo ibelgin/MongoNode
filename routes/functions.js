@@ -32,6 +32,20 @@ function updateDataByID(client , req, res){
   })    
 }
 
+function deleteDataByID(client , req, res){
+  const connect = client.db(store.dbname);
+  const collection = connect .collection(store.dbcollection);
+  
+  collection
+    .replaceOne({ id : parseInt(req.params.id) }, req.body)
+    .then((ans) => {
+      res.send({ api: ans });
+    }).then((err) => {
+      console.log(err);
+  })    
+}
+
 exports.checkAPIActive = checkAPIActive;
 exports.getDataByID = getDataByID;
 exports.updateDataByID = updateDataByID;
+exports.deleteDataByID = deleteDataByID;

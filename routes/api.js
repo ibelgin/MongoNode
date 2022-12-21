@@ -28,4 +28,12 @@ router.patch('/updateData/:id', async function (req, res, next) {
     .catch((err) => res.send({ api : err }))
 }); 
 
+router.patch('/deleteData/:id', async function (req, res, next) {
+  MongoClient
+    .connect(url)
+    .then((client) =>
+        functions.deleteDataByID(client , req , res ))
+    .catch((err) => res.send({ api : err }))
+}); 
+
 module.exports = router;
