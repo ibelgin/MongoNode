@@ -50,7 +50,7 @@ function addUser(client , req, res){
   const collection = connect .collection(store.dbcollection);
   
   collection
-    .insertOne({ id : parseInt(req.params.id) })
+    .insertOne(req.body)
     .then((ans) => {
       res.send({ api: ans });
     }).then((err) => {
