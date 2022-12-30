@@ -44,4 +44,12 @@ router.post('/addUser/', async function (req, res, next) {
     .catch((err) => res.send({ api : err }))
 }); 
 
+router.get('/nameData/:name', async function (req, res, next) {
+  MongoClient
+    .connect(url)
+    .then((client) =>
+        functions.getDataByName(client , req , res ))
+    .catch((err) => res.send({ api : req.params.name }))
+}); 
+
 module.exports = router;
