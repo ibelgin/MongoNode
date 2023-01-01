@@ -8,11 +8,11 @@ const functions = require('./functions.js');
 
 const url = `mongodb+srv://Belgin:Belgin.hiddensafe%40675@mongonode-cluster.8k2hi0f.mongodb.net/mongonode`;
 
-router.get('/', async function (req, res, next) {
+router.get('/', async function (req, res) {
   functions.checkAPIActive(res)
 });
 
-router.get('/userData/:id', async function (req, res, next) {
+router.get('/userData/:id', async function (req, res) {
   MongoClient
     .connect(url)
     .then((client) =>
@@ -20,7 +20,7 @@ router.get('/userData/:id', async function (req, res, next) {
     .catch((err) => res.send({ api : err }))
 });
 
-router.patch('/updateData/:id', async function (req, res, next) {
+router.patch('/updateData/:id', async function (req, res) {
   MongoClient
     .connect(url)
     .then((client) =>
@@ -28,7 +28,7 @@ router.patch('/updateData/:id', async function (req, res, next) {
     .catch((err) => res.send({ api : err }))
 }); 
 
-router.delete('/deleteData/:id', async function (req, res, next) {
+router.delete('/deleteData/:id', async function (req, res) {
   MongoClient
     .connect(url)
     .then((client) =>
@@ -36,7 +36,7 @@ router.delete('/deleteData/:id', async function (req, res, next) {
     .catch((err) => res.send({ api : err }))
 }); 
 
-router.post('/addUser/', async function (req, res, next) {
+router.post('/addUser/', async function (req, res) {
   MongoClient
     .connect(url)
     .then((client) =>
@@ -44,7 +44,7 @@ router.post('/addUser/', async function (req, res, next) {
     .catch((err) => res.send({ api : err }))
 }); 
 
-router.get('/nameData/:name', async function (req, res, next) {
+router.get('/nameData/:name', async function (req, res) {
   MongoClient
     .connect(url)
     .then((client) =>
