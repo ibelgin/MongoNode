@@ -21,7 +21,7 @@ function getDataByID(client ,req, res) {
 
 function updateDataByID(client , req, res){
   const connect = client.db(store.dbname);
-  const collection = connect .collection(store.dbcollection);
+  const collection = connect.collection(store.dbcollection);
   
   collection
     .replaceOne({ id : parseInt(req.params.id) }, req.body)
