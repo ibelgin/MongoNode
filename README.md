@@ -2,6 +2,8 @@
 
 A Simple API using MongoDB, NodeJS , Azure and Github Action's
 
+To Run this clone this repo , run `npm install` and do the api calls
+
 ## Functions
 
 ```js
