@@ -49,3 +49,4 @@ getDataByName (client , req, res)
 * Path - `GET` - **`api/nameData/:name`**
 * Returns all the fields with the mentioned name
 
+Author : **Belgin Jarosh**
